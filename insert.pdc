@@ -1,0 +1,373 @@
+-- Inserting data into Patients table
+Prompt inserting data into Patients table...
+
+INSERT INTO patients
+  (patient_id
+  ,patient_name
+  ,age
+  ,gender
+  ,phone_number
+  ,email
+  ,medical_history
+  ,patient_status
+  ,current_condition)
+VALUES
+  (1
+  ,'John Doe'
+  ,30
+  ,'Male'
+  ,'123-456-7890'
+  ,'johndoe@example.com'
+  ,'None'
+  ,'Active'
+  ,'Healthy');
+INSERT INTO patients
+  (patient_id
+  ,patient_name
+  ,age
+  ,gender
+  ,phone_number
+  ,email
+  ,medical_history
+  ,patient_status
+  ,current_condition)
+VALUES
+  (2
+  ,'Jane Smith'
+  ,45
+  ,'Female'
+  ,'987-654-3210'
+  ,'janesmith@example.com'
+  ,'Diabetes'
+  ,'Pending'
+  ,'Needs follow-up');
+INSERT INTO patients
+  (patient_id
+  ,patient_name
+  ,age
+  ,gender
+  ,phone_number
+  ,email
+  ,medical_history
+  ,patient_status
+  ,current_condition)
+VALUES
+  (3
+  ,'Alice Johnson'
+  ,25
+  ,'Female'
+  ,'555-0123'
+  ,'alice.j@example.com'
+  ,'None'
+  ,'Inactive'
+  ,'Healthy');
+INSERT INTO patients
+  (patient_id
+  ,patient_name
+  ,age
+  ,gender
+  ,phone_number
+  ,email
+  ,medical_history
+  ,patient_status
+  ,current_condition)
+VALUES
+  (4
+  ,'Bob Brown'
+  ,60
+  ,'Male'
+  ,'444-5678'
+  ,'bobb@example.com'
+  ,'Hypertension'
+  ,'Discharged'
+  ,'Healthy');
+INSERT INTO patients
+  (patient_id
+  ,patient_name
+  ,age
+  ,gender
+  ,phone_number
+  ,email
+  ,medical_history
+  ,patient_status
+  ,current_condition)
+VALUES
+  (5
+  ,'Charlie Davis'
+  ,40
+  ,'Male'
+  ,'333-8765'
+  ,'charlie.d@example.com'
+  ,'Asthma'
+  ,'Active'
+  ,'Controlled asthma');
+
+prompt done.
+
+-- Inserting data into Doctors table
+prompt inserting data
+  INTO doctors TABLE .. .
+
+INSERT
+  INTO doctors(doctor_id, doctor_name, phone_number, email, working_hours) VALUES(1,
+                                                                                  'Dr. Emily White',
+                                                                                  '222-333-4444',
+                                                                                  'emily.white@hospital.com',
+                                                                                  'Mon-Fri 9 AM - 5 PM');
+INSERT INTO doctors
+  (doctor_id
+  ,doctor_name
+  ,phone_number
+  ,email
+  ,working_hours)
+VALUES
+  (2
+  ,'Dr. Henry Black'
+  ,'111-222-3333'
+  ,'henry.black@hospital.com'
+  ,'Mon-Fri 10 AM - 6 PM');
+INSERT INTO doctors
+  (doctor_id
+  ,doctor_name
+  ,phone_number
+  ,email
+  ,working_hours)
+VALUES
+  (3
+  ,'Dr. Sophia Green'
+  ,'555-888-9999'
+  ,'sophia.green@hospital.com'
+  ,'Tue-Sat 8 AM - 4 PM');
+
+prompt done.
+
+-- Inserting data into Conditions_Specialisations table
+prompt inserting data
+  INTO conditions_specialisation TABLE .. .
+
+INSERT
+  INTO conditions_specialisations(condition_specialisation_id,
+                                  condition_name,
+                                  specialisation_name,
+                                  doctor_id) VALUES(1,
+                                                    'Diabetes',
+                                                    'Endocrinology',
+                                                    1);
+
+INSERT INTO conditions_specialisations
+  (condition_specialisation_id
+  ,condition_name
+  ,specialisation_name
+  ,doctor_id)
+VALUES
+  (2
+  ,'Hypertension'
+  ,'Cardiology'
+  ,2);
+
+INSERT INTO conditions_specialisations
+  (condition_specialisation_id
+  ,condition_name
+  ,specialisation_name
+  ,doctor_id)
+VALUES
+  (3
+  ,'Asthma'
+  ,'Pulmonology'
+  ,3);
+
+INSERT INTO conditions_specialisations
+  (condition_specialisation_id
+  ,condition_name
+  ,specialisation_name
+  ,doctor_id)
+VALUES
+  (4
+  ,'General Checkup'
+  ,'General Medicine'
+  ,1);
+
+INSERT INTO conditions_specialisations
+  (condition_specialisation_id
+  ,condition_name
+  ,specialisation_name
+  ,doctor_id)
+VALUES
+  (5
+  ,'Chronic Pain'
+  ,'Pain Management'
+  ,2);
+
+prompt done.
+
+-- Inserting data into Appointments table
+prompt inserting data
+  INTO appointments TABLE .. .
+
+INSERT
+  INTO appointments(appointment_id,
+                    patient_id,
+                    doctor_id,
+                    appointment_date,
+                    appointment_status) VALUES(1,
+                                               1,
+                                               1,
+                                               to_date('2024-10-15',
+                                                       'YYYY-MM-DD'),
+                                               'Completed');
+
+INSERT INTO appointments
+  (appointment_id
+  ,patient_id
+  ,doctor_id
+  ,appointment_date
+  ,appointment_status)
+VALUES
+  (2
+  ,2
+  ,2
+  ,to_date('2024-10-20', 'YYYY-MM-DD')
+  ,'Scheduled');
+
+INSERT INTO appointments
+  (appointment_id
+  ,patient_id
+  ,doctor_id
+  ,appointment_date
+  ,appointment_status)
+VALUES
+  (3
+  ,3
+  ,3
+  ,to_date('2024-10-25', 'YYYY-MM-DD')
+  ,'Canceled');
+
+INSERT INTO appointments
+  (appointment_id
+  ,patient_id
+  ,doctor_id
+  ,appointment_date
+  ,appointment_status)
+VALUES
+  (4
+  ,4
+  ,1
+  ,to_date('2024-10-30', 'YYYY-MM-DD')
+  ,'Completed');
+
+INSERT INTO appointments
+  (appointment_id
+  ,patient_id
+  ,doctor_id
+  ,appointment_date
+  ,appointment_status)
+VALUES
+  (5
+  ,5
+  ,2
+  ,to_date('2024-11-02', 'YYYY-MM-DD')
+  ,'Scheduled');
+
+prompt done.
+
+-- Inserting data into Treatments table
+prompt inserting data
+  INTO treatments TABLE .. .
+
+INSERT
+  INTO treatments(treatment_id,
+                  appointment_id,
+                  treatment_description,
+                  treatment_date,
+                  doctor_id) VALUES(1,
+                                    1,
+                                    'Routine blood test',
+                                    to_date('2024-10-15', 'YYYY-MM-DD'),
+                                    1);
+
+INSERT INTO treatments
+  (treatment_id
+  ,appointment_id
+  ,treatment_description
+  ,treatment_date
+  ,doctor_id)
+VALUES
+  (2
+  ,4
+  ,'Blood pressure management'
+  ,to_date('2024-10-30', 'YYYY-MM-DD')
+  ,1);
+
+prompt done.
+
+-- Inserting data into Bills table
+prompt inserting data
+  INTO bills TABLE .. .
+
+INSERT
+  INTO bills(bill_id,
+             patient_id,
+             total_amount,
+             payment_status,
+             payment_date,
+             bill_date,
+             due_date) VALUES(1,
+                              1,
+                              150.00,
+                              'Paid',
+                              to_date('2024-10-16', 'YYYY-MM-DD'),
+                              to_date('2024-10-15', 'YYYY-MM-DD'),
+                              to_date('2024-11-15', 'YYYY-MM-DD'));
+
+INSERT INTO bills
+  (bill_id
+  ,patient_id
+  ,total_amount
+  ,payment_status
+  ,payment_date
+  ,bill_date
+  ,due_date)
+VALUES
+  (2
+  ,2
+  ,200.00
+  ,'Pending'
+  ,NULL
+  ,to_date('2024-10-20', 'YYYY-MM-DD')
+  ,to_date('2024-11-20', 'YYYY-MM-DD'));
+
+INSERT INTO bills
+  (bill_id
+  ,patient_id
+  ,total_amount
+  ,payment_status
+  ,payment_date
+  ,bill_date
+  ,due_date)
+VALUES
+  (3
+  ,4
+  ,100.00
+  ,'Paid'
+  ,to_date('2024-10-31', 'YYYY-MM-DD')
+  ,to_date('2024-10-30', 'YYYY-MM-DD')
+  ,to_date('2024-11-30', 'YYYY-MM-DD'));
+
+INSERT INTO bills
+  (bill_id
+  ,patient_id
+  ,total_amount
+  ,payment_status
+  ,payment_date
+  ,bill_date
+  ,due_date)
+VALUES
+  (4
+  ,5
+  ,250.00
+  ,'Paid'
+  ,to_date('2024-11-03', 'YYYY-MM-DD')
+  ,to_date('2024-11-02', 'YYYY-MM-DD')
+  ,to_date('2024-12-02', 'YYYY-MM-DD'));
+
+prompt done.

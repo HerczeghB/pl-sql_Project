@@ -11,7 +11,7 @@ Create table Patients(
        current_condition varchar2(100),
        registration_date date default sysdate not null
        );
-       
+
 --Creating Doctors Table(orvosok)
 Create table Doctors(
        doctor_id NUMBER PRIMARY KEY not null,
@@ -20,7 +20,7 @@ Create table Doctors(
        email VARCHAR2(100),
        working_hours VARCHAR2(50)
        );
-       
+
 -- Creating Conditions_Specialisations Table(doktor-betegség speciálódás)
 CREATE TABLE Conditions_Specialisations (
        condition_specialisation_id NUMBER PRIMARY KEY not null,
@@ -29,7 +29,7 @@ CREATE TABLE Conditions_Specialisations (
        doctor_id NUMBER not null,
        FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id)
        );
-
+       
 -- Creating Appointments Table(időpontok)
 CREATE TABLE Appointments (
        appointment_id NUMBER PRIMARY KEY not null,
@@ -40,7 +40,7 @@ CREATE TABLE Appointments (
        FOREIGN KEY (patient_id) REFERENCES Patients(patient_id),
        FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id)
        );
-
+       
 -- Creating Treatments Table(kezelések)
 CREATE TABLE Treatments (
     treatment_id NUMBER PRIMARY KEY not null,
@@ -51,7 +51,7 @@ CREATE TABLE Treatments (
     FOREIGN KEY (appointment_id) REFERENCES Appointments(appointment_id),
     FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id)
     );
-
+    
 -- Creating Bills Table(számlák)
 CREATE TABLE Bills (
     bill_id NUMBER PRIMARY KEY not null,
