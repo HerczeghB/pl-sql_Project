@@ -63,3 +63,7 @@ CREATE TABLE Bills (
     due_date DATE,
     FOREIGN KEY (patient_id) REFERENCES Patients(patient_id)
     );
+--Comments
+Comment on column bills.payment_status is 'Fizetes statusza: Paid(kifizetett), Pending(meg nincs kifizetve)';
+Comment on column appointments.appointment_status is 'Rendeles/idopont statusza: Scheduled(tervezett), Completed(befejezett), Canceled(lemondott)';
+Comment on column patients.patient_status is 'Betegek statusza: Active(A beteg kezelesen vesz reszt), Inactive(A beteg nem vesz reszt kezelesen, de a kortortenete tartalmaz kezelest.);'
