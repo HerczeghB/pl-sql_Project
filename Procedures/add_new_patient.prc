@@ -6,9 +6,9 @@ CREATE OR REPLACE PROCEDURE add_new_patient(p_patient_name      IN VARCHAR2
                                            ,p_medical_history   IN CLOB
                                            ,p_patient_status    IN VARCHAR2
                                            ,p_current_condition IN VARCHAR2) IS
-v_new_patient_id number;                                           
+v_new_patient_id number := patient_seq.nextval;                                           
 BEGIN
-  v_new_patient_id := get_max_id('Patients', 'patient_id') + 1;
+ 
   INSERT INTO patients
     (patient_id
     ,patient_name

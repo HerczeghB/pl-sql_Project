@@ -24,9 +24,9 @@ Create table Doctors(
 -- Creating Conditions_Specialisations Table(doktor-betegség speciálódás)
 CREATE TABLE Conditions_Specialisations (
        condition_specialisation_id NUMBER PRIMARY KEY not null,
-       doctor_id NUMBER not null,
        condition_name VARCHAR2(100) not null,
        specialisation_name VARCHAR2(100) not null,
+       doctor_id NUMBER not null,
        FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id)
        );
        
@@ -45,9 +45,9 @@ CREATE TABLE Appointments (
 CREATE TABLE Treatments (
     treatment_id NUMBER PRIMARY KEY not null,
     patient_id NUMBER not null,
-    doctor_id NUMBER not null,
     treatment_description VARCHAR2(255) not null,
     treatment_date DATE not null,
+    doctor_id NUMBER not null,
     FOREIGN KEY (patient_id) REFERENCES Patients(patient_id),
     FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id)
     );

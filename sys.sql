@@ -20,5 +20,6 @@ grant CREATE TABLE TO hospital_manager;
 grant CREATE view TO hospital_manager;
 grant CREATE sequence TO hospital_manager;
 grant CREATE PROCEDURE TO hospital_manager;
+grant create trigger to hospital_manager;
 
 Prompt Done.

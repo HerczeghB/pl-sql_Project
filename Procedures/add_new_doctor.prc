@@ -4,12 +4,9 @@ CREATE OR REPLACE PROCEDURE add_new_doctor(p_doctor_name         IN VARCHAR2
                                           ,p_working_hours       IN VARCHAR2
                                           ,p_condition_name      IN VARCHAR2
                                           ,p_specialisation_name IN VARCHAR2) IS
-  v_new_doctor_id NUMBER;
-  v_new_cs_id     NUMBER;
+  v_new_doctor_id NUMBER := doctor_seq.nextval;
+  v_new_cs_id     NUMBER := cs_seq.nextval;
 BEGIN
-  v_new_doctor_id := get_max_id('Doctors', 'doctor_id') + 1;
-  v_new_cs_id     := get_max_id('Conditions_Specialisations',
-                                'condition_specialisation_id') + 1;
 
   INSERT INTO doctors
     (doctor_id
