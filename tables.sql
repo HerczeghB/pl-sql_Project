@@ -18,7 +18,8 @@ Create table Doctors(
        doctor_name VARCHAR2(60) not null,
        phone_number VARCHAR2(15),
        email VARCHAR2(100),
-       working_hours VARCHAR2(50)
+       working_day varchar2(30),
+       working_hours VARCHAR2(20)
        );
 
 -- Creating Conditions_Specialisations Table(doktor-betegség speciálódás)
@@ -35,7 +36,8 @@ CREATE TABLE Appointments (
        appointment_id NUMBER PRIMARY KEY not null,
        patient_id NUMBER not null,
        doctor_id NUMBER not null,
-       appointment_date DATE not null,
+       appointment_start DATE not null,
+       appointment_end DATE not null,
        appointment_status VARCHAR2(20),
        FOREIGN KEY (patient_id) REFERENCES Patients(patient_id),
        FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id)
