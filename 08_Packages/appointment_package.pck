@@ -25,7 +25,7 @@ CREATE OR REPLACE PACKAGE BODY appointment_package AS
         cancel_appointment(p_appointment_id);
       WHEN 2 THEN
         complete_appointment(p_appointment_id,
-                             nvl(p_bill, 0),
+                             p_bill,
                              nvl(p_treatment_description,
                                  'No description provided'));
       ELSE
@@ -48,6 +48,10 @@ CREATE OR REPLACE PACKAGE BODY appointment_package AS
     v_doctor_id  NUMBER;
   
   BEGIN
+    IF p_bill = 0 THEN
+        RAISE_APPLICATION_ERROR(-20002, 'Bill amount cannot be zero.');
+    END IF;
+
     SELECT patient_id
           ,doctor_id
       INTO v_patient_id
@@ -89,8 +93,9 @@ CREATE OR REPLACE PACKAGE BODY appointment_package AS
       ,NULL
       ,trunc(SYSDATE)
       ,trunc(SYSDATE) + 60
-      ,NULL);
+      ,0);
   
   END complete_appointment;
+
 END appointment_package;
 /
