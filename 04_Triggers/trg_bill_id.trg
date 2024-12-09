@@ -1,0 +1,7 @@
+CREATE OR REPLACE TRIGGER trg_bill_id
+BEFORE INSERT ON Bill
+FOR EACH ROW
+BEGIN
+  :NEW.bill_id := bill_seq.NEXTVAL;
+END;
+/

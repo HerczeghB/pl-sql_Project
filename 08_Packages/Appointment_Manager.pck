@@ -76,9 +76,8 @@ CREATE OR REPLACE PACKAGE BODY appointment_manager IS
   --schedule the appointment
   PROCEDURE schedule_appointment(p_patient_id IN NUMBER, p_date IN DATE) IS
     v_current_condition  VARCHAR2(100);
-    v_doctor_id          NUMBER;
     v_working_day        VARCHAR2(30);
-    v_working_hours      VARCHAR2(20);
+    v_working_hour      VARCHAR2(20);
     v_day_of_week        NUMBER;
     v_appointment_exists NUMBER;
   
@@ -95,30 +94,30 @@ CREATE OR REPLACE PACKAGE BODY appointment_manager IS
   
     SELECT current_condition
       INTO v_current_condition
-      FROM patients
+      FROM patient
      WHERE patient_id = p_patient_id;
 
     dbms_output.put_line('Patient ' || p_patient_id || ' has condition: ' || v_current_condition);
   
     FOR doctor_rec IN (SELECT doctor_id, condition_name
-                         FROM conditions_specialisations
+                         FROM condition_specialisation
                         WHERE condition_name = v_current_condition) LOOP
     
-      SELECT working_day, working_hours
-        INTO v_working_day, v_working_hours
-        FROM doctors
+      SELECT working_day, working_hour
+        INTO v_working_day, v_working_hour
+        FROM doctor
        WHERE doctor_id = doctor_rec.doctor_id;
 
       dbms_output.put_line('Doctor ' || doctor_rec.doctor_id || ' works on: ' || v_working_day ||
-                           ' with working hours: ' || v_working_hours);
+                           ' with working hours: ' || v_working_hour);
 
       v_day_of_week := day_to_number(TRIM(to_char(p_date, 'DAY', 'NLS_DATE_LANGUAGE= ''ENGLISH''')));
 
       IF check_working_day(v_day_of_week, v_working_day) THEN
-        v_start_time := to_timestamp(to_char(p_date, 'YYYY-MM-DD') || ' ' || substr(v_working_hours, 1, 5),
+        v_start_time := to_timestamp(to_char(p_date, 'YYYY-MM-DD') || ' ' || substr(v_working_hour, 1, 5),
                                      'YYYY-MM-DD HH24:MI');
-        v_end_time   := to_timestamp(to_char(p_date, 'YYYY-MM-DD') || ' ' || substr(v_working_hours,
-                                                                                       instr(v_working_hours, '-') + 1),
+        v_end_time   := to_timestamp(to_char(p_date, 'YYYY-MM-DD') || ' ' || substr(v_working_hour,
+                                                                                       instr(v_working_hour, '-') + 1),
                                      'YYYY-MM-DD HH24:MI');
         
         v_input_time := to_timestamp(to_char(p_date, 'YYYY-MM-DD HH24:MI'), 'YYYY-MM-DD HH24:MI');
@@ -127,29 +126,31 @@ CREATE OR REPLACE PACKAGE BODY appointment_manager IS
           -- Check if the appointment slot is already taken
           SELECT COUNT(*)
             INTO v_appointment_exists
-            FROM appointments
+            FROM appointment
            WHERE doctor_id = doctor_rec.doctor_id
              AND ((appointment_start <= v_input_time AND appointment_end > v_input_time) OR
                   (appointment_start < v_input_time + INTERVAL '15' MINUTE AND appointment_end >= v_input_time + INTERVAL '15' MINUTE));
 
           IF v_appointment_exists = 0 THEN
-            INSERT INTO appointments
-              (appointment_id, patient_id, doctor_id, appointment_start, appointment_end, appointment_status)
+            INSERT INTO appointment
+              (patient_id, doctor_id, appointment_start, appointment_end, appointment_status)
             VALUES
-              (appointment_seq.nextval, p_patient_id, doctor_rec.doctor_id, v_input_time,
-               v_input_time + INTERVAL '15' MINUTE, 'Scheduled');
+              (p_patient_id, doctor_rec.doctor_id, v_input_time, v_input_time + INTERVAL '15' MINUTE, 'Scheduled');
           
             dbms_output.put_line('Appointment scheduled with doctor ' || doctor_rec.doctor_id || ' from ' ||
                                  to_char(v_input_time, 'HH24:MI') || ' to ' || to_char(v_input_time + INTERVAL '15' MINUTE, 'HH24:MI'));
             RETURN;
           ELSE
             dbms_output.put_line('The selected appointment time is already taken by another patient.');
+            raise_application_error(-20003, 'The selected appointment time is already taken.');
           END IF;
         ELSE
           dbms_output.put_line('The selected time is outside the available working hours for doctor ' || doctor_rec.doctor_id);
+          raise_application_error(-20004, 'The selected time is outside the working hours.');
         END IF;
       ELSE
         dbms_output.put_line('Doctor ' || doctor_rec.doctor_id || ' does not work on the selected day.');
+        raise_application_error(-20005, 'Doctor ' || doctor_rec.doctor_id || ' does not work on the selected day.');
       END IF;
     END LOOP;
 

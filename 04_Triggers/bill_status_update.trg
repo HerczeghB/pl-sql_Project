@@ -1,5 +1,5 @@
 CREATE OR REPLACE TRIGGER bill_status_update
-  BEFORE UPDATE ON bills
+  BEFORE UPDATE OR INSERT ON bill
   FOR EACH ROW
 BEGIN
   IF :new.amount_paid = :new.total_amount

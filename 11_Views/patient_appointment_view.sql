@@ -9,4 +9,4 @@ a.appointment_start,
 a.appointment_end,
 a.appointment_status,
 d.doctor_name
-from patients p join appointments a on p.patient_id = a.patient_id join doctors d on d.doctor_id = a.doctor_id;
+from patient p join appointment a on p.patient_id = a.patient_id join doctor d on d.doctor_id = a.doctor_id;

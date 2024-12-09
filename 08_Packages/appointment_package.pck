@@ -18,6 +18,7 @@ CREATE OR REPLACE PACKAGE BODY appointment_package AS
                                      ,p_status                IN NUMBER
                                      ,p_bill                  IN NUMBER DEFAULT NULL
                                      ,p_treatment_description IN VARCHAR2 DEFAULT NULL) IS
+                                     
   BEGIN
   
     CASE p_status
@@ -36,7 +37,7 @@ CREATE OR REPLACE PACKAGE BODY appointment_package AS
 
   PROCEDURE cancel_appointment(p_appointment_id IN NUMBER) IS
   BEGIN
-    UPDATE appointments
+    UPDATE appointment
        SET appointment_status = 'Canceled'
      WHERE appointment_id = p_appointment_id;
   END cancel_appointment;
@@ -46,39 +47,43 @@ CREATE OR REPLACE PACKAGE BODY appointment_package AS
                                 ,p_treatment_description IN VARCHAR2) IS
     v_patient_id NUMBER;
     v_doctor_id  NUMBER;
+    v_current_status VARCHAR2(20);
   
   BEGIN
-    IF p_bill = 0 THEN
-        RAISE_APPLICATION_ERROR(-20002, 'Bill amount cannot be zero.');
+    IF p_bill <= 0 THEN
+        RAISE_APPLICATION_ERROR(-20002, 'Bill amount cannot be zero or negative.');
     END IF;
 
     SELECT patient_id
           ,doctor_id
+          ,appointment_status
       INTO v_patient_id
           ,v_doctor_id
-      FROM appointments
+          ,v_current_status
+      FROM appointment
      WHERE appointment_id = p_appointment_id;
+     
+     IF v_current_status != 'Scheduled' THEN
+        RAISE_APPLICATION_ERROR(-20003, 'Appointment can only be marked as completed if it is currently in Scheduled status.');
+    END IF;
   
-    UPDATE appointments
+    UPDATE appointment
        SET appointment_status = 'Completed'
      WHERE appointment_id = p_appointment_id;
   
-    INSERT INTO treatments
-      (treatment_id
-      ,patient_id
+    INSERT INTO treatment
+      (patient_id
       ,treatment_description
       ,treatment_date
       ,doctor_id)
     VALUES
-      (treatment_seq.nextval
-      ,v_patient_id
+      (v_patient_id
       ,p_treatment_description
       ,trunc(SYSDATE)
       ,v_doctor_id);
   
-    INSERT INTO bills
-      (bill_id
-      ,patient_id
+    INSERT INTO bill
+      (patient_id
       ,total_amount
       ,payment_status
       ,payment_date
@@ -86,8 +91,7 @@ CREATE OR REPLACE PACKAGE BODY appointment_package AS
       ,due_date
       ,amount_paid)
     VALUES
-      (bill_seq.nextval
-      ,v_patient_id
+      (v_patient_id
       ,p_bill
       ,'Pending'
       ,NULL
